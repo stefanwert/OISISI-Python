@@ -4,7 +4,14 @@ import  os
 
 if __name__ == "__main__":
 
+    putanja = input('C:\\Users\\Korisnik DT\\Desktop\\test-skup')
 
+    pf = []
+    tr = Trie()
+    pf = parseF(putanja)
+    for w in pf:
+        for i in w.words:
+            tr.insert(i, w.putanja)
 
     list_of_files={}
     g=Graph()
