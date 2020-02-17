@@ -44,9 +44,7 @@ if __name__ == "__main__":
         print("-------------")
         ulaz = input("unesite rec")
 
-    #rec=input("unesite rec")
-    #fajl=input("unesite naziv fajla")
     print("------------------------")
     #t.ispis()
-    g.printVertexs()
+    #g.printVertexs()
 

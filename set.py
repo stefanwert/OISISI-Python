@@ -19,13 +19,14 @@ class Set:
             print(el)
 
     def diffrence(self,s):
-        ret=[]
         for el in self.list:
             if el not in s.list:
-                ret.append(el)
-        return ret
+                list.remove(el)
 
-    #def kompement(self,s):
+    def complement(self,s):
+        for el in self.list:
+            s.remove(el)
+        self.list=s
 
     def __iter__(self):
          self.n = 0
