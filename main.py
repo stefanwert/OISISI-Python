@@ -1,17 +1,24 @@
 from parserr import Parser
+from trie import Trie
 from graph import Graph
-import  os
+import os
 
 if __name__ == "__main__":
 
-    putanja = input('C:\\Users\\Korisnik DT\\Desktop\\test-skup')
-
+    putanja = "C:\\Users\\Korisnik DT\\Desktop\\test-skup"
     pf = []
     tr = Trie()
-    pf = parseF(putanja)
-    for w in pf:
-        for i in w.words:
-            tr.insert(i, w.putanja)
+    parser = Parser()
+
+    for(directory_path, directory_names, file_names) in os.walk(putanja):
+        for filename in file_names:
+            if filename.endswith('.html'):
+                pf = parser.parse(directory_path + '\\' + filename)
+                for word in pf[1]:
+                    tr.insert(word, filename)
+                tr.addLinks(pf[0], filename, directory_path)
+
+
 
     list_of_files={}
     g=Graph()
