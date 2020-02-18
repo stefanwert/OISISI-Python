@@ -16,12 +16,10 @@ if __name__ == "__main__":
                 pf = parser.parse(directory_path + '\\' + filename)
                 for word in pf[1]:
                     tr.insert(word, filename)
-                tr.addLinks(pf[0], filename, directory_path)
+                tr.add_links(pf[0], filename, directory_path)
 
-
-
-    list_of_files={}
     g=Graph()
+    t = Trie()
     for(dirpath,dirnames,filenames)in os.walk('C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'):
         #print(dirpath,dirnames)
         for filename in filenames:
@@ -32,7 +30,23 @@ if __name__ == "__main__":
                 g.addVertex(dirpath+'\\'+filename)
                 for lin in p.links:
                     g.addEdge(dirpath+'\\'+filename,lin)
+                for word in p.words:
+                    t.insert(word.lower(),dirpath+'\\'+filename)
+    ulaz=input("unesite rec")
+    while ulaz!="kraj":
+        b=t.does_word_exist(ulaz.lower())
+        if b ==True:
+            print("ima")
+        elif  b==False:
+            print("nema")
+        else:
+            for ret in b:
+                #print(ret)
+                print(ret.html," ",ret.num)
+        print("-------------")
+        ulaz = input("unesite rec")
 
-
-    g.printVertexs()
+    print("------------------------")
+    #t.ispis()
+    #g.printVertexs()
 

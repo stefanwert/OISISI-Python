@@ -6,6 +6,13 @@ class TrieNode:
         self.parent = None
         self.children = {}
         self.is_end_of_word = False
+        #self.numberOfRepetition=0
+
+
+class RetrunHtml:
+    def __init__(self,html,num):
+        self.num=num
+        self.html=html
 
     def is_root(self):
         return self.parent is None
@@ -36,6 +43,7 @@ class Trie:
             return 1 + max(self.height(c) for c in x.children)
 
     def insert(self, word, file):
+        word.lower()
         curr_node = self.root
         for l in word:
             if l not in curr_node.children:
@@ -45,6 +53,7 @@ class Trie:
             else:
                 curr_node = curr_node.children[l]
         curr_node.is_end_of_word = True
+       # curr_node.numberOfRepetition+=1
 
         if file not in curr_node.files:
             curr_node.files.append(file)
@@ -56,7 +65,9 @@ class Trie:
     def ispis(self):
         pass
 
-    def does_word_exist(self, word, pf):
+    def does_word_exist(self, word):
+        word.lower()
+        print(word)
         if word == "":
             return True
         curr_node = self.root
@@ -64,10 +75,9 @@ class Trie:
             if letter not in curr_node.children:
                 return False
             curr_node = curr_node.children[letter]
-
         return curr_node.file
 
-    def addLinks(self, links, file, directory):
+    def add_links(self, links, file, directory):
         for link in links:
             self.links_to[file].append(link)
             parts = link.split("\\")
@@ -75,4 +85,3 @@ class Trie:
             if link_to not in self.links_from:
                 self.links_from[link_to] = []
             self.links_from[link_to].append(directory + "\\" + file)
-
