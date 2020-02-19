@@ -6,7 +6,6 @@ class TrieNode:
         self.parent = None
         self.children = {}
         self.is_end_of_word = False
-        #self.numberOfRepetition=0
 
 
 class RetrunHtml:
@@ -43,7 +42,7 @@ class Trie:
             return 1 + max(self.height(c) for c in x.children)
 
     def insert(self, word, file):
-        word.lower()
+        word = word.lower()
         curr_node = self.root
         for l in word:
             if l not in curr_node.children:
@@ -53,7 +52,7 @@ class Trie:
             else:
                 curr_node = curr_node.children[l]
         curr_node.is_end_of_word = True
-       # curr_node.numberOfRepetition+=1
+
 
         if file not in curr_node.files:
             curr_node.files.append(file)
@@ -66,8 +65,7 @@ class Trie:
         pass
 
     def does_word_exist(self, word):
-        word.lower()
-        print(word)
+        word = word.lower() # postavljanje svih slova na lower case
         if word == "":
             return True
         curr_node = self.root
@@ -75,7 +73,7 @@ class Trie:
             if letter not in curr_node.children:
                 return False
             curr_node = curr_node.children[letter]
-        return curr_node.file
+        return curr_node.files
 
     def add_links(self, links, file, directory):
         for link in links:
