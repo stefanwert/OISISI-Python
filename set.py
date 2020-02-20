@@ -28,6 +28,9 @@ class Set:
             s.remove(el)
         self.list=s
 
+    def remove(self,el):    #da li treba vidi???
+        self.list.remove(el)
+
     def __iter__(self):
          self.n = 0
          return self
