@@ -1,3 +1,5 @@
+import set
+
 class TrieNode:
     def __init__(self, letter=""):
         self.key = letter
@@ -22,8 +24,7 @@ class RetrunHtml:
 class Trie:
     def __init__(self):
         self.root = TrieNode(" ")
-        self.links_to = {}
-        self.links_from = {}
+
 
     def is_empty(self):
         return self.root is None
@@ -52,18 +53,15 @@ class Trie:
                 curr_node = curr_node.children[l]  # ako slovo jeste dijete samo predji na njega
         curr_node.is_end_of_word = True  # kada se kompletira rijec postaviti flag cvora na true
 
-
         if file not in curr_node.files:
             curr_node.files.append(file)
 
-        if file not in self.links_to:
-            self.links_to[file] = []
-            self.links_from[file] = []
 
     def ispis(self):
         pass
 
     def does_word_exist(self, word):
+        retVal = set.Set()
         word = word.lower() # postavljanje svih slova na lower case
         if word == "":
             return True
@@ -72,13 +70,8 @@ class Trie:
             if letter not in curr_node.children:
                 return False
             curr_node = curr_node.children[letter]
-        return curr_node.files
 
-    def add_links(self, links, file, directory):
-        for link in links:
-            self.links_to[file].append(link)
-            parts = link.split("\\")
-            link_to = parts[-1]
-            if link_to not in self.links_from:
-                self.links_from[link_to] = []
-            self.links_from[link_to].append(directory + "\\" + file)
+        for file in curr_node.files:
+            retVal.addElement(file)
+        return retVal
+

@@ -1,41 +1,50 @@
 from parserr import Parser
 from trie import Trie
 from graph import Graph
+import re
 import os
 
 if __name__ == "__main__":
 
     putanja = "C:\\Users\\Korisnik DT\\Desktop\\test-skup"
-    pf = []
     tr = Trie()
     parser = Parser()
 
     for(directory_path, directory_names, file_names) in os.walk(putanja): # krecemo se kroz sve direktorije i poddirektorije
         for filename in file_names:
-            if filename.endswith('.html'):
-                pf = parser.parse(directory_path + '\\' + filename) # putanja do fajla koji se parsira se do
-                for word in pf[1]:
-                    tr.insert(word, filename)
-                tr.add_links(pf[0], filename, directory_path)
+            if filename.endswith('.html'): # parsiramo samo html fajlove iz liste fajlova
+                parser.parse(directory_path + '\\' + filename)
+                for word in parser.words:
+                    tr.insert(word, directory_path + '\\' + filename) # svaka rijec parsirana iz fajlova se ubacuje u stablo
+
 
 
     logicki = ("AND", "OR", "NOT")
     ulaz = input("Unesite rec")
     while ulaz != "kraj":
-        upit = ulaz.split(" ")
-        rezulatati = {}  # rijecnik sa kljucevima koji su rijeci pretrage a vrijednosti su fajlovi u kojima se nalaze
+        upit = re.sub('\s+', " ", ulaz).strip().split(" ") # \s+ znaci ako naidje na jedan ili vise razmaka zamjeni ih sa jednim
 
+        rezulatati = {}  # rijecnik sa kljucevima koji su rijeci pretrage a vrijednosti su fajlovi u kojima se nalaze
+        flag=0 # flag za los upit
         for rec in upit:  # za svaku rijec u upitu
+            if rec == "":
+                continue
             if rec in logicki:  # ako je logicki operator ispisu je se poruka i preskace se
-                print("Postoji operator " + rec)
+                flag=flag+1
+                if flag > 1:
+                    print("Upit nije validan, moze da postoji samo jedan logicki operator.")
+                    break
                 continue
             fajlovi = tr.does_word_exist(rec.lower())  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
             if fajlovi:
-                print("Postoji")
                 rezulatati[rec] = fajlovi  # stavljam fajlove u rijecnik
             elif not fajlovi:
-                print("Ne postoji")
-            print("-------------")
+                print("Ne postoji rec: " + rec)
+                flag = 2
+        if flag > 1:
+            ulaz = input("unesite rec")
+            continue
+
 
         unique_files = []
         for key, rezultat in rezulatati.items():
@@ -44,6 +53,7 @@ if __name__ == "__main__":
                     unique_files.append(rez)
 
         print(len(unique_files))
+        print("-------------")
         ulaz = input("unesite rec")
 
     g=Graph()
