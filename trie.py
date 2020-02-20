@@ -1,4 +1,4 @@
-import set
+from set import Set
 
 class TrieNode:
     def __init__(self, letter=""):
@@ -57,11 +57,8 @@ class Trie:
             curr_node.files.append(file)
 
 
-    def ispis(self):
-        pass
-
     def does_word_exist(self, word):
-        retVal = set.Set()
+        retVal = Set()
         word = word.lower() # postavljanje svih slova na lower case
         if word == "":
             return True
