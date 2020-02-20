@@ -3,7 +3,7 @@ import set
 class TrieNode:
     def __init__(self, letter=""):
         self.key = letter
-        self.files = []
+        self.files = {}
         self.parent = None
         self.children = {}
         self.is_end_of_word = False
@@ -54,7 +54,10 @@ class Trie:
         curr_node.is_end_of_word = True  # kada se kompletira rijec postaviti flag cvora na true
 
         if file not in curr_node.files:
-            curr_node.files.append(file)
+            #curr_node.files.append(file)
+            curr_node.files[file]=1
+        else:
+            curr_node.files[file]+=1
 
 
     def ispis(self):
@@ -72,6 +75,6 @@ class Trie:
             curr_node = curr_node.children[letter]
 
         for file in curr_node.files:
-            retVal.addElement(file)
+            retVal.addElement(RetrunHtml(file,curr_node.files[file]))
         return retVal
 

@@ -8,7 +8,15 @@ if __name__ == "__main__":
 
     putanja = "test-skup"
     tr = Trie()
+    g = Graph()
     parser = Parser()
+
+   # for (dirpath, dirnames, filenames) in os.walk('test-skup'):
+        #for filename in filenames:
+           # p = Parser()
+           # if filename.endswith('.html'):
+            #    p.parse(dirpath + '\\' + filename)
+
 
     for(directory_path, directory_names, file_names) in os.walk(putanja): # krecemo se kroz sve direktorije i poddirektorije
         for filename in file_names:
@@ -16,7 +24,10 @@ if __name__ == "__main__":
                 parser.parse(directory_path + '\\' + filename)
                 for word in parser.words:
                     tr.insert(word, directory_path + '\\' + filename) # svaka rijec parsirana iz fajlova se ubacuje u stablo
-
+                #ovo je za graf ispod
+                g.addVertex(directory_path + '\\' + filename)
+                for lin in parser.links:
+                    g.addEdge(directory_path + '\\' + filename, lin)
 
 
     logicki = ("AND", "OR", "NOT")
@@ -53,20 +64,12 @@ if __name__ == "__main__":
                     unique_files.append(rez)
 
         print(len(unique_files))
+        for f in fajlovi:
+            print(f.html," :",f.num)
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
 
-    g=Graph()
-    for(dirpath,dirnames,filenames)in os.walk('test-skup'):
-        #print(dirpath,dirnames)
-        for filename in filenames:
-           #print(filename)
-            p = Parser()
-            if filename.endswith('.html'):
-                p.parse(dirpath+'\\'+filename)
-                g.addVertex(dirpath+'\\'+filename)
-                for lin in p.links:
-                    g.addEdge(dirpath+'\\'+filename,lin)
+
 
 
     print("------------------------")
