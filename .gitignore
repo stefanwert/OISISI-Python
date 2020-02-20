@@ -11,6 +11,7 @@ test-skup/
 *.png
 *.txt
 *.html
+*.pyc
 
 
 # User-specific stuff
