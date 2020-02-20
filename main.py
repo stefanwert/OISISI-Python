@@ -6,7 +6,7 @@ import os
 
 if __name__ == "__main__":
 
-    putanja = "C:\\Users\\Korisnik DT\\Desktop\\test-skup"
+    putanja = "test-skup"
     tr = Trie()
     parser = Parser()
 
@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
 
     logicki = ("AND", "OR", "NOT")
-    ulaz = input("Unesite rec")
+    ulaz = input("Unesite kriterijum pretrage: ")
     while ulaz != "kraj":
         upit = re.sub('\s+', " ", ulaz).strip().split(" ") # \s+ znaci ako naidje na jedan ili vise razmaka zamjeni ih sa jednim
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
                 print("Ne postoji rec: " + rec)
                 flag = 2
         if flag > 1:
-            ulaz = input("unesite rec")
+            ulaz = input("Unesite kriterijum pretrage: ")
             continue
 
 
@@ -54,10 +54,10 @@ if __name__ == "__main__":
 
         print(len(unique_files))
         print("-------------")
-        ulaz = input("unesite rec")
+        ulaz = input("Unesite kriterijum pretrage: ")
 
     g=Graph()
-    for(dirpath,dirnames,filenames)in os.walk('C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'):
+    for(dirpath,dirnames,filenames)in os.walk('test-skup'):
         #print(dirpath,dirnames)
         for filename in filenames:
            #print(filename)
