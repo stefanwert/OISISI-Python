@@ -10,13 +10,14 @@ if __name__ == "__main__":
     tr = Trie()
     parser = Parser()
 
-    for (directory_path, directory_names, file_names) in os.walk(putanja):
+    for(directory_path, directory_names, file_names) in os.walk(putanja): # krecemo se kroz sve direktorije i poddirektorije
         for filename in file_names:
             if filename.endswith('.html'):
-                pf = parser.parse(directory_path + '\\' + filename)
+                pf = parser.parse(directory_path + '\\' + filename) # putanja do fajla koji se parsira se do
                 for word in pf[1]:
                     tr.insert(word, filename)
                 tr.add_links(pf[0], filename, directory_path)
+
 
     logicki = ("AND", "OR", "NOT")
     ulaz = input("Unesite rec")
@@ -34,12 +35,15 @@ if __name__ == "__main__":
                 rezulatati[rec] = fajlovi  # stavljam fajlove u rijecnik
             elif not fajlovi:
                 print("Ne postoji")
-            else:
-                for ret in fajlovi:
-                    # print(ret)
-                    print(ret.html, " ", ret.num)
             print("-------------")
 
+        unique_files = []
+        for key, rezultat in rezulatati.items():
+            for rez in rezultat:
+                if rez not in unique_files:
+                    unique_files.append(rez)
+
+        print(len(unique_files))
         ulaz = input("unesite rec")
 
     g=Graph()
@@ -53,8 +57,6 @@ if __name__ == "__main__":
                 g.addVertex(dirpath+'\\'+filename)
                 for lin in p.links:
                     g.addEdge(dirpath+'\\'+filename,lin)
-
-
 
 
     print("------------------------")

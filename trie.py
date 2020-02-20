@@ -1,4 +1,3 @@
-
 class TrieNode:
     def __init__(self, letter=""):
         self.key = letter
@@ -7,17 +6,17 @@ class TrieNode:
         self.children = {}
         self.is_end_of_word = False
 
-
-class RetrunHtml:
-    def __init__(self,html,num):
-        self.num=num
-        self.html=html
-
     def is_root(self):
         return self.parent is None
 
     def is_leaf(self):
         return len(self.children) == 0
+
+
+class RetrunHtml:
+    def __init__(self,html,num):
+        self.num=num
+        self.html=html
 
 
 class Trie:
@@ -44,14 +43,14 @@ class Trie:
     def insert(self, word, file):
         word = word.lower()
         curr_node = self.root
-        for l in word:
-            if l not in curr_node.children:
-                curr_node.children[l] = TrieNode(l)
-                curr_node.children[l].parent = curr_node
-                curr_node = curr_node.children[l]
+        for l in word:  # za svako slovo u rijeci
+            if l not in curr_node.children:  # ako slovo nije dijete trenutnog cvora
+                curr_node.children[l] = TrieNode(l)  # napravi ga
+                curr_node.children[l].parent = curr_node  # postavi mu trenutni cvor za roditelja
+                curr_node = curr_node.children[l]  # i onda predji na cvor koji si napravio
             else:
-                curr_node = curr_node.children[l]
-        curr_node.is_end_of_word = True
+                curr_node = curr_node.children[l]  # ako slovo jeste dijete samo predji na njega
+        curr_node.is_end_of_word = True  # kada se kompletira rijec postaviti flag cvora na true
 
 
         if file not in curr_node.files:
