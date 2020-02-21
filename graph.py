@@ -34,7 +34,7 @@ class Graph :
                 for fajlLink in fajlovi.list:
                     if link.endswith(fajlLink.html):
                         print(link ," ",fajlLink.html)
-                        fajlLink.rang+=(fajl.rang/len(self.dict[fajl.html]))
+                        fajlLink.rang+=(fajl.num+10000/len(self.dict[fajl.html]))
                     else :
                         print("--- ",link, " ", fajlLink.html)
         #for f in fajlovi:

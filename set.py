@@ -5,6 +5,11 @@ class Set:
         self.list=[]
         self.max=0
 
+    def __add__(self, other):
+        for o in other.list:
+            self.list.append(o)
+        return self
+
     def addElement(self,el):
         if el not in self.list:
             self.list.append(el)

@@ -5,6 +5,25 @@ from set import Set
 import re
 import os
 
+def quicksort(arr):
+    if len(arr.list) <= 1:
+        return arr
+    pivot = arr.list[len(arr.list) // 2]
+    #left = [x for x in arr if x.rang < pivot]
+    #middle = [x for x in arr if x.rang == pivot]
+    #right = [x for x in arr if x.rang > pivot]
+    left=Set()
+    middle=Set()
+    right=Set()
+    for x in arr:
+        if x.rang>pivot.rang:
+          left.addElement(x)
+        elif x.rang==pivot.rang:
+           middle.addElement(x)
+        else:
+            right.addElement(x)
+    return quicksort(left) + middle + quicksort(right)
+
 if __name__ == "__main__":
 
     putanja = "test-skup"
@@ -66,8 +85,9 @@ if __name__ == "__main__":
                     unique_files.append(rez)
 
         fajlovi=g.ranking(fajlovi)  #rangiranje
+        fajlovi=quicksort(fajlovi)
         print(len(unique_files))
-        for f in fajlovi:
+        for f in fajlovi.list:
             print(f.html, " :", f.num, " rang:", f.rang)
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
