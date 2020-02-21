@@ -1,6 +1,7 @@
 from parserr import Parser
 from trie import Trie
 from graph import Graph
+from set import Set
 import re
 import os
 
@@ -66,8 +67,8 @@ if __name__ == "__main__":
 
         fajlovi=g.ranking(fajlovi)  #rangiranje
         print(len(unique_files))
-        #for f in fajlovi:
-            #print(f.html," :",f.num," rang:",f.rang)
+        for f in fajlovi:
+            print(f.html, " :", f.num, " rang:", f.rang)
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
 

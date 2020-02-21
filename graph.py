@@ -37,8 +37,9 @@ class Graph :
                         fajlLink.rang+=(fajl.rang/len(self.dict[fajl.html]))
                     else :
                         print("--- ",link, " ", fajlLink.html)
-        for f in fajlovi:
-            print(f.html, " :", f.num, " rang:", f.rang)
+        #for f in fajlovi:
+            #print(f.html, " :", f.num, " rang:", f.rang)
+        return fajlovi
 
 
 
