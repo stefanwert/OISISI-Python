@@ -23,6 +23,13 @@ class Set:
             if el not in s.list:
                 list.remove(el)
 
+    def intersection(self,s):
+        ret=Set()
+        for el in s:
+            if el in self.list:
+                ret.addElement(el)
+        return ret
+
     def complement(self,s):
         for el in self.list:
             s.remove(el)

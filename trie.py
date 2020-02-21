@@ -19,6 +19,7 @@ class RetrunHtml:
     def __init__(self,html,num):
         self.num=num
         self.html=html
+        self.rang=10000
 
 
 class Trie:

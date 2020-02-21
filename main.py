@@ -27,6 +27,7 @@ if __name__ == "__main__":
                 #ovo je za graf ispod
                 g.addVertex(directory_path + '\\' + filename)
                 for lin in parser.links:
+                    print(directory_path + '\\' + filename,"  ", lin)
                     g.addEdge(directory_path + '\\' + filename, lin)
 
 
@@ -63,9 +64,10 @@ if __name__ == "__main__":
                 if rez not in unique_files:
                     unique_files.append(rez)
 
+        fajlovi=g.ranking(fajlovi)  #rangiranje
         print(len(unique_files))
-        for f in fajlovi:
-            print(f.html," :",f.num)
+        #for f in fajlovi:
+            #print(f.html," :",f.num," rang:",f.rang)
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
 
