@@ -2,25 +2,45 @@ import random
 
 class Set(object):
 
-    def __init__(self,capacity=30):
-
-        self._data=capacity*[None]
-        self._capacity=capacity
-        self._size=0
-        self.prime=109345121
-        self._a=1+random.random.randrange(self.prime-1)
-        self._b=random.randrange(self.prime)
+    def __init__(self):
+        self.dict={}
 
     def __len__(self):
-            return  self._size
+        return self.dict.keys().__len__()
 
-    def _hash(self,x):
-        hashed_value = (hash(x) * self._a + self._b) % self.prime
-        compressed = hashed_value % self._capacity
-        return compressed
+    def addElement(self, el):
+        self.dict[el]=1
 
-    def _resize(self,capacity):
-        old_data = list(self.items())
-        self._data = capacity * [None]
-        self._size = 0
+    def remove(self,el):
+        if el in self.dict:
+            self.dict.pop(el)
+
+    def union(self, s):
+        for el in s.dict.keys():
+            self.addElement(el)
+
+    def intersection(self, s):
+        ret={}
+        for el in s.dict.keys():
+            if el in self.dict.keys():
+                ret[el]=1
+        self.dict=ret
+
+    def complement(self, s):
+        for el in self.dict.keys():
+            s.remove(el)
+        self.dict=s.dict
+
+    def __add__(self, other):
+        for o in other.dict.keys():
+            self.addElement(o)
+        return self
+
+    def printSet(self):
+        print("elemenit su:------")
+        for el in self.dict.keys():
+            print(el)
+
+
+
 

@@ -1,27 +1,27 @@
 from parserr import Parser
 from trie import Trie
 from graph import Graph
-from set import Set
 import re
 import os
+from set2 import Set
 
 def quicksort(arr):
-    if len(arr.list) <= 1:
+    if len(arr) <= 1:
         return arr
-    pivot = arr.list[len(arr.list) // 2]
+    pivot = arr[len(arr) // 2]
     #left = [x for x in arr if x.rang < pivot]
     #middle = [x for x in arr if x.rang == pivot]
     #right = [x for x in arr if x.rang > pivot]
-    left=Set()
-    middle=Set()
-    right=Set()
+    left=[]
+    middle=[]
+    right=[]
     for x in arr:
         if x.rang>pivot.rang:
-          left.addElement(x)
+          left.append(x)
         elif x.rang==pivot.rang:
-           middle.addElement(x)
+           middle.append(x)
         else:
-            right.addElement(x)
+            right.append(x)
     return quicksort(left) + middle + quicksort(right)
 
 if __name__ == "__main__":
@@ -68,26 +68,21 @@ if __name__ == "__main__":
                     break
                 continue
             fajlovi = tr.does_word_exist(rec.lower())  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
-            if fajlovi:
-                rezulatati[rec] = fajlovi  # stavljam fajlove u rijecnik
-            elif not fajlovi:
+            if not fajlovi:
                 print("Ne postoji rec: " + rec)
                 flag = 2
         if flag > 1:
             ulaz = input("Unesite kriterijum pretrage: ")
             continue
 
+        fajlovi = g.ranking(fajlovi)  # rangiranje
+        l=[]
+        for el in fajlovi.dict.keys():
+            l.append(el)
 
-        unique_files = []
-        for key, rezultat in rezulatati.items():
-            for rez in rezultat:
-                if rez not in unique_files:
-                    unique_files.append(rez)
 
-        fajlovi=g.ranking(fajlovi)  #rangiranje
-        fajlovi=quicksort(fajlovi)
-        print(len(unique_files))
-        for f in fajlovi.list:
+        l=quicksort(l)
+        for f in l:
             print(f.html, " :", f.num, " rang:", f.rang)
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")

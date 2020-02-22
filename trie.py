@@ -1,4 +1,4 @@
-from set import Set
+from set2 import Set
 
 class TrieNode:
     def __init__(self, letter=""):

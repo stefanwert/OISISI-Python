@@ -28,13 +28,13 @@ class Graph :
                 print(j)
 
     def ranking(self,fajlovi):
-        for fajl in fajlovi.list:
-            fajl.rang+=fajl.num         #rang se povecava za broj reci na toj stranici
-            for link in self.dict[fajl.html]:
-                for fajlLink in fajlovi.list:
+        for struc in fajlovi.dict.keys():
+            struc.rang+=struc.num         #rang se povecava za broj reci na toj stranici
+            for link in self.dict[struc.html]:
+                for fajlLink in fajlovi.dict.keys():
                     if link.endswith(fajlLink.html):
                         print(link ," ",fajlLink.html)
-                        fajlLink.rang+=(fajl.num+10000/len(self.dict[fajl.html]))
+                        fajlLink.rang+=(struc.num+10000/len(self.dict[struc.html]))
                     else :
                         print("--- ",link, " ", fajlLink.html)
         #for f in fajlovi:
