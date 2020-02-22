@@ -61,7 +61,7 @@ class Trie:
             curr_node.files[file]+=1
 
 
-    def does_word_exist(self, word):
+    def does_word_exist(self, word,returnHtmlSet):
         retVal = Set()
         word = word.lower() # postavljanje svih slova na lower case
         if word == "":
@@ -73,6 +73,7 @@ class Trie:
             curr_node = curr_node.children[letter]
 
         for file in curr_node.files:
-            retVal.addElement(RetrunHtml(file,curr_node.files[file]))
+            returnHtmlSet.addElement(RetrunHtml(file,curr_node.files[file]))
+            retVal.addElement(file)
         return retVal
 

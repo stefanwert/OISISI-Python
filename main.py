@@ -4,6 +4,7 @@ from graph import Graph
 import re
 import os
 from set2 import Set
+from trie import RetrunHtml
 
 def quicksort(arr):
     if len(arr) <= 1:
@@ -27,6 +28,7 @@ def quicksort(arr):
 if __name__ == "__main__":
 
     putanja = "test-skup"
+    #putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
     tr = Trie()
     g = Graph()
     parser = Parser()
@@ -39,6 +41,7 @@ if __name__ == "__main__":
 
 
     for(directory_path, directory_names, file_names) in os.walk(putanja): # krecemo se kroz sve direktorije i poddirektorije
+        print(directory_path)
         for filename in file_names:
             if filename.endswith('.html'): # parsiramo samo html fajlove iz liste fajlova
                 parser.parse(directory_path + '\\' + filename)
@@ -67,7 +70,8 @@ if __name__ == "__main__":
                     print("Upit nije validan, moze da postoji samo jedan logicki operator.")
                     break
                 continue
-            fajlovi = tr.does_word_exist(rec.lower())  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
+            returnHtmlSet = Set()
+            fajlovi = tr.does_word_exist(rec.lower(),returnHtmlSet)  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
             if not fajlovi:
                 print("Ne postoji rec: " + rec)
                 flag = 2
@@ -75,15 +79,17 @@ if __name__ == "__main__":
             ulaz = input("Unesite kriterijum pretrage: ")
             continue
 
-        fajlovi = g.ranking(fajlovi)  # rangiranje
+        fajlovi = g.ranking(returnHtmlSet,fajlovi)  # rangiranje
         l=[]
         for el in fajlovi.dict.keys():
             l.append(el)
 
 
         l=quicksort(l)
+
         for f in l:
             print(f.html, " :", f.num, " rang:", f.rang)
+        print("broj stranica",len(l))
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
 
