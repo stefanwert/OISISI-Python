@@ -27,9 +27,8 @@ class Set(object):
         self.dict=ret
 
     def complement(self, s):
-        for el in self.dict.keys():
-            s.remove(el)
-        self.dict=s.dict
+        for el in s.dict.keys():
+            self.remove(el)
 
     def __add__(self, other):
         for o in other.dict.keys():

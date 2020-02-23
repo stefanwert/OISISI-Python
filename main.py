@@ -29,6 +29,7 @@ if __name__ == "__main__":
 
     putanja = "test-skup"
     #putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
+    #putanja ='C:\\Users\\Korisnik DT\\Desktop\\test-skup'
     tr = Trie()
     g = Graph()
     parser = Parser()
@@ -58,10 +59,11 @@ if __name__ == "__main__":
     ulaz = input("Unesite kriterijum pretrage: ")
     while ulaz != "kraj":
         upit = re.sub('\s+', " ", ulaz).strip().split(" ") # \s+ znaci ako naidje na jedan ili vise razmaka zamjeni ih sa jednim
-
+        index_log_op = -1
         rezulatati = {}  # rijecnik sa kljucevima koji su rijeci pretrage a vrijednosti su fajlovi u kojima se nalaze
         flag=0 # flag za los upit
-        for rec in upit:  # za svaku rijec u upitu
+        returnHtmlSet = Set()
+        for index,rec in enumerate(upit):  # za svaku rijec u upitu
             if rec == "":
                 continue
             if rec in logicki:  # ako je logicki operator ispisu je se poruka i preskace se
@@ -69,32 +71,46 @@ if __name__ == "__main__":
                 if flag > 1:
                     print("Upit nije validan, moze da postoji samo jedan logicki operator.")
                     break
+                index_log_op = index  # indeks logickog operatora u upitu
                 continue
-            returnHtmlSet = Set()
             fajlovi = tr.does_word_exist(rec.lower(),returnHtmlSet)  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
-            if not fajlovi:
+            if fajlovi:
+                rezulatati[rec] = fajlovi  # stavljam fajlove u rijecnik
+            else:
                 print("Ne postoji rec: " + rec)
-                flag = 2
+                flag = 2  # ako riijec ne postoji postavljamo flag na 2 da ne bi izracunavao rezultate
         if flag > 1:
             ulaz = input("Unesite kriterijum pretrage: ")
             continue
 
-        fajlovi = g.ranking(returnHtmlSet,fajlovi)  # rangiranje
+        unique_files = Set()
+        if index_log_op != -1:  # ako je nasao logicki operator
+            unique_files.union(rezulatati[upit[index_log_op - 1]])  # dodaje set rezultata prve rijeci
+            if upit[index_log_op] == "NOT":  # logicki operandi poredani po prednosti izvrsavanja prvo ide NOT pa AND pa OR
+                unique_files.complement(rezulatati[upit[index_log_op + 1]])
+            elif upit[index_log_op] == "AND":
+                unique_files.intersection(rezulatati[upit[index_log_op + 1]])
+            else:
+                unique_files.union(rezulatati[upit[index_log_op + 1]])
+            del rezulatati[upit[index_log_op - 1]]
+            del rezulatati[upit[index_log_op + 1]]  # brisanje vec dodatih rezultata iz rijecnika rezultata
+
+        for key, rezultat in rezulatati.items():
+            unique_files.union(rezultat)
+
+        fajlovi = g.ranking(returnHtmlSet, unique_files)  # rangiranje
         l=[]
         for el in fajlovi.dict.keys():
             l.append(el)
-
 
         l=quicksort(l)
 
         for f in l:
             print(f.html, " :", f.num, " rang:", f.rang)
         print("broj stranica",len(l))
+        print("ocekivani broj stranica",len(unique_files))
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
-
-
-
 
     print("------------------------")
     #t.ispis()
