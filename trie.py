@@ -20,6 +20,7 @@ class RetrunHtml:
         self.num=num
         self.html=html
         self.rang=10000
+        self.brReci=1
 
 
 class Trie:

@@ -28,8 +28,6 @@ class Graph :
                 print(j)
 
     def ranking(self, returnHtmlSet,set):
-        a=0
-        b=0
         for struc in returnHtmlSet.dict.keys():
             struc.rang+=struc.num         #rang se povecava za broj reci na toj stranici
             for link in self.dict[struc.html]:
@@ -40,18 +38,10 @@ class Graph :
                     #else :
                         #print("--- ",link, " ", fajlLink.html)
                 if link in set.dict:
-                    #print(b, "bbb")
-                    b += 1
                     for fajlLink in returnHtmlSet.dict.keys():
                         if link.endswith(fajlLink.html):
                             fajlLink.rang+=(struc.num+10000/len(self.dict[struc.html]))
                             break
-                else:
-                    #print(a,"aaa")
-                    a+=1
-
-        #for f in fajlovi:
-            #print(f.html, " :", f.num, " rang:", f.rang)
         return returnHtmlSet
 
 

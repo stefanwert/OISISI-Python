@@ -17,18 +17,23 @@ def quicksort(arr):
     middle=[]
     right=[]
     for x in arr:
-        if x.rang>pivot.rang:
-          left.append(x)
-        elif x.rang==pivot.rang:
-           middle.append(x)
-        else:
+        if x.brReci>pivot.brReci:
+            left.append(x)
+        elif x.brReci<pivot.brReci:
             right.append(x)
+        else:
+            if x.rang>pivot.rang:
+                left.append(x)
+            elif x.rang==pivot.rang:
+                middle.append(x)
+            else:
+                right.append(x)
     return quicksort(left) + middle + quicksort(right)
 
 if __name__ == "__main__":
 
-    putanja = "test-skup"
-    #putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
+    #putanja = "test-skup"
+    putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
     #putanja ='C:\\Users\\Korisnik DT\\Desktop\\test-skup'
     tr = Trie()
     g = Graph()
@@ -42,7 +47,6 @@ if __name__ == "__main__":
 
 
     for(directory_path, directory_names, file_names) in os.walk(putanja): # krecemo se kroz sve direktorije i poddirektorije
-        print(directory_path)
         for filename in file_names:
             if filename.endswith('.html'): # parsiramo samo html fajlove iz liste fajlova
                 parser.parse(directory_path + '\\' + filename)
@@ -51,7 +55,7 @@ if __name__ == "__main__":
                 #ovo je za graf ispod
                 g.addVertex(directory_path + '\\' + filename)
                 for lin in parser.links:
-                    print(directory_path + '\\' + filename,"  ", lin)
+                    #print(directory_path + '\\' + filename,"  ", lin)
                     g.addEdge(directory_path + '\\' + filename, lin)
 
 
@@ -106,6 +110,9 @@ if __name__ == "__main__":
                 for obj2 in returnHtmlSet2.dict.keys():
                    if obj.html == obj2.html:
                        a+=1
+                       obj2.num+=obj.num
+                       obj2.brReci+=1
+
                 if a==0:
                     returnHtmlSet2.addElement(obj)
         returnHtmlSet=returnHtmlSet2
@@ -118,7 +125,7 @@ if __name__ == "__main__":
         l=quicksort(l)
 
         for f in l:
-            print(f.html, " :", f.num, " rang:", f.rang)
+            print(f.html, " :", f.num, " rang:", f.rang, "ispusnja br razlicitih reci:",f.brReci)
         print("broj stranica",len(l))
         print("ocekivani broj stranica", len(search_results))
         print("-------------")
