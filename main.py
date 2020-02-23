@@ -124,12 +124,61 @@ if __name__ == "__main__":
 
         l=quicksort(l)
 
-        for f in l:
-            print(f.html, " :", f.num, " rang:", f.rang, "ispusnja br razlicitih reci:",f.brReci)
-        print("broj stranica",len(l))
-        print("ocekivani broj stranica", len(search_results))
+        #paginacija
+        iin="a"
+        k=0
+        while not k:
+            print("unesite velicinu jedne stranice(broj mora biti manji ili jednak od ukupnog broja stranica:",len(l)-1,")")
+            k = int(input())
+            if k>= len(l)-1:
+                k=0
+        a = 0
+        b = a+k
+        myFlag=0
+        while iin:
+            if iin.lower()=="d":
+                if b+k>len(l)-1 and b<len(l)-1:
+                    a+=k
+                    b=len(l)-1
+                if b+k>len(l)-1:        #provera da ne izadjemo iz opsega liste za desnu granicu
+                    #print("nije moguce ici vise udesno!!!!!!!!!!!!!")
+                    myFlag=1
+                else:
+                    a += k
+                    b+=k
+            elif iin.lower()=="l":
+                if b-a!=k:
+                    b=b-(b-a)
+                    a-=k
+                else:
+                    if a-k<0:       #provera da ne izadjemo iz opsega liste za levu granicu
+                        #print("nije moguce ici vise ulevo!!!!!!!!!!!!!")
+                        myFlag=2
+                    else:
+                        a-=k
+                        b-=k
+            if myFlag==1:
+                print("nije moguce ici vise udesno!!!!!!!!!!!!!")
+                myFlag=0
+            elif myFlag==2:
+                print("nije moguce ici vise ulevo!!!!!!!!!!!!!")
+                myFlag = 0
+            else:
+                for f in l[a:b]:
+                    print(f.html, " :", f.num, " rang:", f.rang, "ispusnja br razlicitih reci:",f.brReci)
+            print("broj stranica",len(l))
+            print("ocekivani broj stranica", len(search_results))
+            print("od:",a+1," do:",b)
+            print("\n\n\n")
+            iin=input("<---l d---> \nza sledecu pretragu pritisnite samo enter")
+            #kraj paginacije
+
+
+
+
+
         print("-------------")
-        ulaz = input("Unesite kriterijum pretrage: ")
+        ulaz = input("Unesite kriterijum pretrage:(za kraj upisite rec kraj)")
 
     print("------------------------")
     #t.ispis()
