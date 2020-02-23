@@ -28,8 +28,8 @@ class Graph :
                 print(j)
 
     def ranking(self, returnHtmlSet,set):
-        a=0;
-        b=0;
+        a=0
+        b=0
         for struc in returnHtmlSet.dict.keys():
             struc.rang+=struc.num         #rang se povecava za broj reci na toj stranici
             for link in self.dict[struc.html]:

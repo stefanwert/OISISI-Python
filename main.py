@@ -98,6 +98,18 @@ if __name__ == "__main__":
         for key, rezultat in rezulatati.items():
             search_results.union(rezultat)
 
+        #skracujem returnHtmlSet
+        returnHtmlSet2=Set()
+        for obj in returnHtmlSet.dict.keys():
+            if obj.html in search_results.dict:
+                a=0
+                for obj2 in returnHtmlSet2.dict.keys():
+                   if obj.html == obj2.html:
+                       a+=1
+                if a==0:
+                    returnHtmlSet2.addElement(obj)
+        returnHtmlSet=returnHtmlSet2
+
         fajlovi = g.ranking(returnHtmlSet, search_results)  # rangiranje
         l=[]
         for el in fajlovi.dict.keys():
