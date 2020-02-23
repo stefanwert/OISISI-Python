@@ -83,22 +83,22 @@ if __name__ == "__main__":
             ulaz = input("Unesite kriterijum pretrage: ")
             continue
 
-        unique_files = Set()
+        search_results = Set()
         if index_log_op != -1:  # ako je nasao logicki operator
-            unique_files.union(rezulatati[upit[index_log_op - 1]])  # dodaje set rezultata prve rijeci
+            search_results.union(rezulatati[upit[index_log_op - 1]])  # dodaje set rezultata prve rijeci
             if upit[index_log_op] == "NOT":  # logicki operandi poredani po prednosti izvrsavanja prvo ide NOT pa AND pa OR
-                unique_files.complement(rezulatati[upit[index_log_op + 1]])
+                search_results.complement(rezulatati[upit[index_log_op + 1]])
             elif upit[index_log_op] == "AND":
-                unique_files.intersection(rezulatati[upit[index_log_op + 1]])
+                search_results.intersection(rezulatati[upit[index_log_op + 1]])
             else:
-                unique_files.union(rezulatati[upit[index_log_op + 1]])
+                search_results.union(rezulatati[upit[index_log_op + 1]])
             del rezulatati[upit[index_log_op - 1]]
             del rezulatati[upit[index_log_op + 1]]  # brisanje vec dodatih rezultata iz rijecnika rezultata
 
         for key, rezultat in rezulatati.items():
-            unique_files.union(rezultat)
+            search_results.union(rezultat)
 
-        fajlovi = g.ranking(returnHtmlSet, unique_files)  # rangiranje
+        fajlovi = g.ranking(returnHtmlSet, search_results)  # rangiranje
         l=[]
         for el in fajlovi.dict.keys():
             l.append(el)
@@ -108,7 +108,7 @@ if __name__ == "__main__":
         for f in l:
             print(f.html, " :", f.num, " rang:", f.rang)
         print("broj stranica",len(l))
-        print("ocekivani broj stranica",len(unique_files))
+        print("ocekivani broj stranica", len(search_results))
         print("-------------")
         ulaz = input("Unesite kriterijum pretrage: ")
 
