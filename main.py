@@ -33,8 +33,13 @@ def quicksort(arr):
 if __name__ == "__main__":
 
     #putanja = "test-skup"
-    putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
+    #putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
     #putanja ='C:\\Users\\Korisnik DT\\Desktop\\test-skup'
+    flagForPutanja=1
+    while flagForPutanja:
+        putanja=input("unesite putanju")
+        if not putanja.endswith("html") and not putanja.endswith("."):
+            flagForPutanja=0
     tr = Trie()
     g = Graph()
     parser = Parser()
@@ -60,7 +65,7 @@ if __name__ == "__main__":
 
 
     logicki = ("AND", "OR", "NOT")
-    ulaz = input("Unesite kriterijum pretrage: ")
+    ulaz = input("Unesite kriterijum pretrage:(za kraj upisite rec kraj)")
     while ulaz != "kraj":
         upit = re.sub('\s+', " ", ulaz).strip().split(" ") # \s+ znaci ako naidje na jedan ili vise razmaka zamjeni ih sa jednim
         index_log_op = -1
@@ -84,7 +89,7 @@ if __name__ == "__main__":
                 print("Ne postoji rec: " + rec)
                 flag = 2  # ako riijec ne postoji postavljamo flag na 2 da ne bi izracunavao rezultate
         if flag > 1:
-            ulaz = input("Unesite kriterijum pretrage: ")
+            ulaz = input("Unesite kriterijum pretrage:(za kraj upisite rec kraj)")
             continue
 
         search_results = Set()
@@ -139,8 +144,8 @@ if __name__ == "__main__":
             if iin.lower()=="d":
                 if b+k>len(l)-1 and b<len(l)-1:
                     a+=k
-                    b=len(l)-1
-                if b+k>len(l)-1:        #provera da ne izadjemo iz opsega liste za desnu granicu
+                    b=len(l)
+                elif b+k>len(l)-1:        #provera da ne izadjemo iz opsega liste za desnu granicu
                     #print("nije moguce ici vise udesno!!!!!!!!!!!!!")
                     myFlag=1
                 else:
