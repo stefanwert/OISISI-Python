@@ -1,55 +1,45 @@
+import random
 
+class Set(object):
 
-class Set:
     def __init__(self):
-        self.list=[]
-        self.max=0
+        self.dict={}
 
-    def __add__(self, other):
-        for o in other.list:
-            self.list.append(o)
-        return self
+    def __len__(self):
+        return self.dict.keys().__len__()
 
-    def addElement(self,el):
-        if el not in self.list:
-            self.list.append(el)
-            self.max+=1
+    def addElement(self, el):
+        self.dict[el]=1
 
-    def union(self,s):
-        for el in s.list:
+    def remove(self,el):
+        if el in self.dict:
+            self.dict.pop(el)
+
+    def union(self, s):
+        for el in s.dict.keys():
             self.addElement(el)
 
+    def intersection(self, s):
+        ret={}
+        for el in s.dict.keys():
+            if el in self.dict.keys():
+                ret[el]=1
+        self.dict=ret
+
+    def complement(self, s):
+        for el in s.dict.keys():
+            self.remove(el)
+
+    def __add__(self, other):
+        for o in other.dict.keys():
+            self.addElement(o)
+        return self
+
     def printSet(self):
-        for el in self.list:
+        print("elemenit su:------")
+        for el in self.dict.keys():
             print(el)
 
-    def diffrence(self,s):
-        for el in self.list:
-            if el not in s.list:
-                list.remove(el)
 
-    def intersection(self,s):
-        ret=Set()
-        for el in s:
-            if el in self.list:
-                ret.addElement(el)
-        return ret
 
-    def complement(self,s):
-        for el in self.list:
-            s.remove(el)
-        self.list=s
 
-    def remove(self,el):    #da li treba vidi???
-        self.list.remove(el)
-
-    def __iter__(self):
-         self.n = 0
-         return self
-
-    def __next__(self):
-        if self.n>= self.max:     #moze i self.n>= len(self.list)
-            raise StopIteration
-        current=self.n
-        self.n+=1
-        return  self.list[current]

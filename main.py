@@ -3,16 +3,13 @@ from trie import Trie
 from graph import Graph
 import re
 import os
-from set2 import Set
+from set import Set
 from trie import RetrunHtml
 
 def quicksort(arr):
     if len(arr) <= 1:
         return arr
     pivot = arr[len(arr) // 2]
-    #left = [x for x in arr if x.rang < pivot]
-    #middle = [x for x in arr if x.rang == pivot]
-    #right = [x for x in arr if x.rang > pivot]
     left=[]
     middle=[]
     right=[]
@@ -32,9 +29,6 @@ def quicksort(arr):
 
 if __name__ == "__main__":
 
-    #putanja = "test-skup"
-    #putanja ='C:\\Users\\Petrovic\\Desktop\\stefan\\test-skup'
-    #putanja ='C:\\Users\\Korisnik DT\\Desktop\\test-skup'
     flagForPutanja=1
     while flagForPutanja:
         putanja=input("Unesite putanju: ")
@@ -43,13 +37,6 @@ if __name__ == "__main__":
     tr = Trie()
     g = Graph()
     parser = Parser()
-
-   # for (dirpath, dirnames, filenames) in os.walk('test-skup'):
-        #for filename in filenames:
-           # p = Parser()
-           # if filename.endswith('.html'):
-            #    p.parse(dirpath + '\\' + filename)
-
 
     for(directory_path, directory_names, file_names) in os.walk(putanja): # krecemo se kroz sve direktorije i poddirektorije
         for filename in file_names:
@@ -60,14 +47,19 @@ if __name__ == "__main__":
                 #ovo je za graf ispod
                 g.addVertex(directory_path + '\\' + filename)
                 for lin in parser.links:
-                    #print(directory_path + '\\' + filename,"  ", lin)
                     g.addEdge(directory_path + '\\' + filename, lin)
 
 
     logicki = ("AND", "OR", "NOT")
     print("Za prekid programa unesite rec kraj.")
-    ulaz = input("Unesite kriterijum pretrage: ")
+    #ulaz = input("Unesite kriterijum pretrage: ")
+    ulaz=""
     while ulaz != "kraj":
+        print("------------------------------------")
+        print("Za prekid programa unesite rec kraj.")
+        ulaz = input("Unesite kriterijum pretrage: ")
+        if ulaz=="kraj":
+            break
         upit = re.sub('\s+', " ", ulaz).strip().split(" ") # \s+ znaci ako naidje na jedan ili vise razmaka zamjeni ih sa jednim
         index_log_op = -1
         rezulatati = {}  # rijecnik sa kljucevima koji su rijeci pretrage a vrijednosti su fajlovi u kojima se nalaze
@@ -134,15 +126,25 @@ if __name__ == "__main__":
             l.append(el)
 
         l=quicksort(l)
-
+        if len(l)==0:
+            print("zadata pretraga ne daje ni jedno resenje")
+            continue
         #paginacija
         iin="a"
         k=0
         while not k:
-            print("Unesite koliko stranica zelite da vam se prikaze(broj mora biti manji ili jednak od ukupnog broja stranica:",len(l)-1,")")
-            k = int(input())
-            if k>= len(l)-1:
+            print("Unesite koliko stranica zelite da vam se prikaze(broj mora biti manji ili jednak od ukupnog broja stranica:",len(l),")")
+            try:
+                k = int(input())
+            except:
+                print("Unesite broj !")
                 k=0
+            if k> len(l) or k<0:
+                k=0
+            if len(l)==0:
+                k=0
+                print("Ne postoji ni jedna html stranica sa zadatim kriterijumom !!!!!!!!!!!!!!!!!!!!!")
+                break
         a = 0
         b = a+k
         myFlag=0
@@ -152,7 +154,6 @@ if __name__ == "__main__":
                     a+=k
                     b=len(l)
                 elif b+k>len(l)-1:        #provera da ne izadjemo iz opsega liste za desnu granicu
-                    #print("Nije moguce dalje kretanje u desno!!!")
                     myFlag=1
                 else:
                     a += k
@@ -163,7 +164,6 @@ if __name__ == "__main__":
                     a-=k
                 else:
                     if a-k<0:       #provera da ne izadjemo iz opsega liste za levu granicu
-                        #print("Nije moguce dalje kretanje u levo!!!")
                         myFlag=2
                     else:
                         a-=k
@@ -184,11 +184,7 @@ if __name__ == "__main__":
             #kraj paginacije
 
 
-        print("------------------------------------")
-        print("Za prekid programa unesite rec kraj.")
-        ulaz = input("Unesite kriterijum pretrage: ")
+
 
     print("------------------------------------")
-    #t.ispis()
-    #g.printVertexs()
 
