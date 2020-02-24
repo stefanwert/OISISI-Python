@@ -1,2 +1,2 @@
 # OISISI-Python
-Interpreter 3.8
+Interpreter 3.7

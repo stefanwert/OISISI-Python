@@ -37,7 +37,7 @@ if __name__ == "__main__":
     #putanja ='C:\\Users\\Korisnik DT\\Desktop\\test-skup'
     flagForPutanja=1
     while flagForPutanja:
-        putanja=input("unesite putanju")
+        putanja=input("Unesite putanju: ")
         if not putanja.endswith("html") and not putanja.endswith("."):
             flagForPutanja=0
     tr = Trie()
@@ -65,7 +65,8 @@ if __name__ == "__main__":
 
 
     logicki = ("AND", "OR", "NOT")
-    ulaz = input("Unesite kriterijum pretrage:(za kraj upisite rec kraj)")
+    print("Za prekid programa unesite rec kraj.")
+    ulaz = input("Unesite kriterijum pretrage: ")
     while ulaz != "kraj":
         upit = re.sub('\s+', " ", ulaz).strip().split(" ") # \s+ znaci ako naidje na jedan ili vise razmaka zamjeni ih sa jednim
         index_log_op = -1
@@ -75,10 +76,14 @@ if __name__ == "__main__":
         for index,rec in enumerate(upit):  # za svaku rijec u upitu
             if rec == "":
                 continue
-            if rec in logicki:  # ako je logicki operator ispisu je se poruka i preskace se
+            if rec in logicki:
+                if index==0:
+                    print("Upit nije validan jer ne moze poceti sa logickim operatorom.\n")
+                    flag=2
+                    break
                 flag=flag+1
                 if flag > 1:
-                    print("Upit nije validan, moze da postoji samo jedan logicki operator.")
+                    print("Upit nije validan jer moze da postoji samo jedan logicki operator.\n")
                     break
                 index_log_op = index  # indeks logickog operatora u upitu
                 continue
@@ -89,13 +94,14 @@ if __name__ == "__main__":
                 print("Ne postoji rec: " + rec)
                 flag = 2  # ako riijec ne postoji postavljamo flag na 2 da ne bi izracunavao rezultate
         if flag > 1:
-            ulaz = input("Unesite kriterijum pretrage:(za kraj upisite rec kraj)")
+            print("Za prekid programa unesite rec kraj.")
+            ulaz = input("Unesite kriterijum pretrage: ")
             continue
 
         search_results = Set()
         if index_log_op != -1:  # ako je nasao logicki operator
             search_results.union(rezulatati[upit[index_log_op - 1]])  # dodaje set rezultata prve rijeci
-            if upit[index_log_op] == "NOT":  # logicki operandi poredani po prednosti izvrsavanja prvo ide NOT pa AND pa OR
+            if upit[index_log_op] == "NOT":  # logicki operatori poredani po prednosti izvrsavanja prvo ide NOT pa AND pa OR
                 search_results.complement(rezulatati[upit[index_log_op + 1]])
             elif upit[index_log_op] == "AND":
                 search_results.intersection(rezulatati[upit[index_log_op + 1]])
@@ -133,7 +139,7 @@ if __name__ == "__main__":
         iin="a"
         k=0
         while not k:
-            print("unesite velicinu jedne stranice(broj mora biti manji ili jednak od ukupnog broja stranica:",len(l)-1,")")
+            print("Unesite koliko stranica zelite da vam se prikaze(broj mora biti manji ili jednak od ukupnog broja stranica:",len(l)-1,")")
             k = int(input())
             if k>= len(l)-1:
                 k=0
@@ -146,7 +152,7 @@ if __name__ == "__main__":
                     a+=k
                     b=len(l)
                 elif b+k>len(l)-1:        #provera da ne izadjemo iz opsega liste za desnu granicu
-                    #print("nije moguce ici vise udesno!!!!!!!!!!!!!")
+                    #print("Nije moguce dalje kretanje u desno!!!")
                     myFlag=1
                 else:
                     a += k
@@ -157,35 +163,32 @@ if __name__ == "__main__":
                     a-=k
                 else:
                     if a-k<0:       #provera da ne izadjemo iz opsega liste za levu granicu
-                        #print("nije moguce ici vise ulevo!!!!!!!!!!!!!")
+                        #print("Nije moguce dalje kretanje u levo!!!")
                         myFlag=2
                     else:
                         a-=k
                         b-=k
             if myFlag==1:
-                print("nije moguce ici vise udesno!!!!!!!!!!!!!")
+                print("Nije moguce dalje kretanje u desno!!!")
                 myFlag=0
             elif myFlag==2:
-                print("nije moguce ici vise ulevo!!!!!!!!!!!!!")
+                print("Nije moguce dalje kretanje u levo!!!")
                 myFlag = 0
             else:
                 for f in l[a:b]:
                     print(f.html, " :", f.num, " rang:", f.rang, "ispusnja br razlicitih reci:",f.brReci)
-            print("broj stranica",len(l))
-            print("ocekivani broj stranica", len(search_results))
             print("od:",a+1," do:",b)
-            print("\n\n\n")
-            iin=input("<---l d---> \nza sledecu pretragu pritisnite samo enter")
+            print("Ukupan broj stranica:", len(l))
+            print("\n")
+            iin=input("<---l d---> \nZa kretanje u levo unesite l, za kretanje u desno unesite d\nZa sledecu pretragu pritisnite samo enter: ")
             #kraj paginacije
 
 
+        print("------------------------------------")
+        print("Za prekid programa unesite rec kraj.")
+        ulaz = input("Unesite kriterijum pretrage: ")
 
-
-
-        print("-------------")
-        ulaz = input("Unesite kriterijum pretrage:(za kraj upisite rec kraj)")
-
-    print("------------------------")
+    print("------------------------------------")
     #t.ispis()
     #g.printVertexs()
 
