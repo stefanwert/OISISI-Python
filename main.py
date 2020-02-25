@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     flagForPutanja=1
     while flagForPutanja:
-        putanja=input("Unesite putanju: ")
+        putanja=input("Unesite putanju(ne sme se zavrisavati sa html ili tackom): ")
         if not putanja.endswith("html") and not putanja.endswith("."):
             flagForPutanja=0
     tr = Trie()
@@ -49,12 +49,12 @@ if __name__ == "__main__":
                 for lin in parser.links:
                     g.addEdge(directory_path + '\\' + filename, lin)
 
-
     logicki = ("AND", "OR", "NOT")
-    print("Za prekid programa unesite rec kraj.")
+    #print("Za prekid programa unesite rec kraj.")
     #ulaz = input("Unesite kriterijum pretrage: ")
     ulaz=""
     while ulaz != "kraj":
+        firstTimeNot=0
         print("------------------------------------")
         print("Za prekid programa unesite rec kraj.")
         ulaz = input("Unesite kriterijum pretrage: ")
@@ -69,6 +69,8 @@ if __name__ == "__main__":
             if rec == "":
                 continue
             if rec in logicki:
+                if rec=="NOT":
+                    firstTimeNot=1
                 if index==0:
                     print("Upit nije validan jer ne moze poceti sa logickim operatorom.\n")
                     flag=2
@@ -79,7 +81,11 @@ if __name__ == "__main__":
                     break
                 index_log_op = index  # indeks logickog operatora u upitu
                 continue
-            fajlovi = tr.does_word_exist(rec.lower(),returnHtmlSet)  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
+            if  firstTimeNot:
+                fajlovi = tr.does_word_exist(rec.lower(), Set())
+                firstTimeNot=0
+            else:
+                fajlovi = tr.does_word_exist(rec.lower(),returnHtmlSet)  # ako rijec postoji i nije logicki operator vraca sve fajlove u kojima se nalazi
             if fajlovi:
                 rezulatati[rec] = fajlovi  # stavljam fajlove u rijecnik
             else:
@@ -127,7 +133,7 @@ if __name__ == "__main__":
 
         l=quicksort(l)
         if len(l)==0:
-            print("zadata pretraga ne daje ni jedno resenje")
+            print("zadata pretraga ne daje ni jedno resenje !!!")
             continue
         #paginacija
         iin="a"
@@ -176,7 +182,7 @@ if __name__ == "__main__":
                 myFlag = 0
             else:
                 for f in l[a:b]:
-                    print(f.html, " :", f.num, " rang:", f.rang, "ispusnja br razlicitih reci:",f.brReci)
+                    print(f.html, " :", "broj reci kombinovano:",f.num, " rang:", f.rang, "br razlicitih reci:",f.brReci)
             print("od:",a+1," do:",b)
             print("Ukupan broj stranica:", len(l))
             print("\n")
